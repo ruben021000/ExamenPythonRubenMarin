@@ -134,14 +134,28 @@ if __name__ == "__main__":
 #print(choose_secret_advanced("palabras_extended.txt"))
 #print(check_valid_word("palabras_reduced.txt"))
 
+#Si el fichero recibido por choose_secret no tiene palabras:
 try:
-  words = []
-  f = open("palabras_reduced.txt", mode="rt", encoding="utf-8")
-  for line in f:
-        line=line.split()
-        words.extend(line)
-
-  f.close()
-  print(words[0])
+  choose_secret("pruebaExcepciones.txt")
 except:
     print("La lista de palabras esta vacia")
+
+#Si la longitud de las palabras recibidas por compare_words no es la misma:
+try:
+  word = "hola"
+  secret = "no"
+  print(word[len(secret)])
+  print(secret[len(word)])
+
+except:
+    print("La longitud de las palabras no es igual")
+
+#Si same_position o same_letter recibidos por print_word no son listas:
+try:
+  same_position = ["hola"]
+  same_letter = "no"
+  print(same_position.append("hola"))
+  print(same_letter.append("hola"))
+
+except:
+    print("same_position o same_letter no son listas")
