@@ -98,26 +98,30 @@ def choose_secret_advanced(filename):
     
     secret = random.choice(selected)
       
-    #return secret.upper()
-    return words
+    return secret.upper()
     
    
  
-def check_valid_word():
+def check_valid_word(selected):
     """Dada una lista de palabras, esta función pregunta al usuario que introduzca una palabra hasta que introduzca una que esté en la lista. Esta palabra es la que devolverá la función.
     Args:
       selected: Lista de palabras.
     Returns:
       word: Palabra introducida por el usuario que está en la lista.
     """
+    userWord = ""
+    for i in range(0,9999): 
+      userWord = str(input("Enter a word: "))
+      if userWord in selected:
+        print("Funciona: " + userWord)
 '''
 if __name__ == "__main__":
-    secret=choose_secret()
+    secret=choose_secret("palabras_reduced.txt")
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
-        same_position, same_letter = compare_words()
-        resultado=print_word()
+        same_position, same_letter = compare_words(word,secret)
+        resultado=print_word(word,same_position,same_letter)
         print(resultado)
         if word == secret:
             print("HAS GANADO!!")
@@ -127,5 +131,17 @@ if __name__ == "__main__":
 #print(choose_secret("palabras_reduced.txt"))
 #a = compare_words("CAMPO","CREMA")
 #print(print_word("CAMPO",a[0],a[1]))
+#print(choose_secret_advanced("palabras_extended.txt"))
+#print(check_valid_word("palabras_reduced.txt"))
 
-print(choose_secret_advanced("palabras_extended.txt"))
+try:
+  words = []
+  f = open("palabras_reduced.txt", mode="rt", encoding="utf-8")
+  for line in f:
+        line=line.split()
+        words.extend(line)
+
+  f.close()
+  print(words[0])
+except:
+    print("La lista de palabras esta vacia")
