@@ -2,7 +2,7 @@ import random
 
 from pyparsing import Word
 
-def choose_secret(file):
+def choose_secret(filename):
     """Dado un nombre de fichero, esta función devuelve una palabra aleatoria de este fichero transformada a mayúsculas.
     Args:
       filename: El nombre del fichero. Ej. "palabras_reduced.txt"
@@ -10,7 +10,7 @@ def choose_secret(file):
       secret: Palabra elegida aleatoriamente del fichero transformada a mayúsculas. Ej. "CREMA"
     """
     words = []
-    f = open(file, mode="rt", encoding="utf-8")
+    f = open(filename, mode="rt", encoding="utf-8")
 
     for line in f:
         line=line.split()
@@ -35,10 +35,15 @@ def compare_words(word,secret):
     same_letter = []
     for i in range(0,len(word)):
       if word[i] == secret[i]:
+        same_position.append(i)
+      if word[i] in secret and i not in same_position:
+        same_letter.append(i)
+    return same_position,same_letter
 
 
 
-def print_word():
+
+def print_word(word,same_position,same_letter):
     """Dada una palabra, una lista same_position y otra lista same_letter, esta función creará un string donde aparezcan en mayúsculas las letras de la palabra que ocupen las posiciones de same_position, en minúsculas las letras de la palabra que ocupen las posiciones de same_letter y un guión (-) en el resto de posiciones
     Args:
       word: Una palabra. Ej. "CAMPO"
@@ -47,8 +52,18 @@ def print_word():
     Returns:
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
+    transformed = []
+    for i in range(0,len(word)):
+        transformed.append("-")
+    for letter in same_position:
+      transformed[letter] = word[letter]
+    for letter in same_letter:
+      transformed[letter] = word[letter]#pero en minusculas
+
+    return transformed
     
-def choose_secret_advanced():
+    
+def choose_secret_advanced(filename):
     """Dado un nombre de fichero, esta función filtra solo las palabras de 5 letras que no tienen acentos (á,é,í,ó,ú). De estas palabras, la función devuelve una lista de 15 aleatorias no repetidas y una de estas 15, se selecciona aleatoriamente como palabra secret.
     Args:
       filename: El nombre del fichero. Ej. "palabras_extended.txt"
@@ -56,6 +71,17 @@ def choose_secret_advanced():
       selected: Lista de 15 palabras aleatorias no repetidas que tienen 5 letras y no tienen acentos
       secret: Palabra elegida aleatoriamente de la lista de 15 seleccionadas transformada a mayúsculas
     """
+    words = []
+    f = open(filename, mode="rt", encoding="utf-8")
+
+    for line in f:
+        line=line.split()
+        words.extend(line)
+    
+    for i in range(len(words)):
+      
+
+    f.close()
  
 def check_valid_word():
     """Dada una lista de palabras, esta función pregunta al usuario que introduzca una palabra hasta que introduzca una que esté en la lista. Esta palabra es la que devolverá la función.
@@ -78,4 +104,6 @@ if __name__ == "__main__":
             exit()
     print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
 '''
-print(choose_secret("palabras_reduced.txt"))
+#print(choose_secret("palabras_reduced.txt"))
+a = compare_words("CAMPO","CREMA")
+print(print_word("CAMPO",a[0],a[1]))
