@@ -52,9 +52,9 @@ def print_word(word,same_position,same_letter):
     for i in range(0,len(word)):
         transformed.append("-")
     for letter in same_position:
-      transformed[letter] = word[letter]
+      transformed[letter] = word[letter].upper()
     for letter in same_letter:
-      transformed[letter] = word[letter]
+      transformed[letter] = word[letter].lower()
 
     return transformed
     
@@ -75,17 +75,31 @@ def choose_secret_advanced(filename):
         words.extend(line)
     f.close()
 
-    acentos = ["á","é","í","ó","ú"]
-
-   
-    
     for word in words:
-      for letter in word:
-        for acento in acentos:
-          if acento in letter:
-            words.remove(word)
-    return words
+      if len(word) != 5:
+        words.remove(word)
 
+    for w in words:
+        if "á" in w:
+          words.remove(w)
+        if "é" in w:
+          words.remove(w)
+        if "í" in w:
+          words.remove(w)
+        if "ó" in w:
+          words.remove(w)
+        if "ú" in w:
+          words.remove(w)
+        
+    selected = []
+    for i in range(0,15):
+
+      selected.append(random.choice(words))
+    
+    secret = random.choice(selected)
+      
+    #return secret.upper()
+    return words
     
    
  
@@ -111,7 +125,7 @@ if __name__ == "__main__":
     print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
 '''
 #print(choose_secret("palabras_reduced.txt"))
-a = compare_words("CAMPO","CREMA")
+#a = compare_words("CAMPO","CREMA")
 #print(print_word("CAMPO",a[0],a[1]))
 
 print(choose_secret_advanced("palabras_extended.txt"))
