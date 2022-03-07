@@ -1,7 +1,5 @@
 import random
 
-from pyparsing import Word
-
 def choose_secret(filename):
     """Dado un nombre de fichero, esta función devuelve una palabra aleatoria de este fichero transformada a mayúsculas.
     Args:
@@ -17,9 +15,7 @@ def choose_secret(filename):
         words.extend(line)
 
     f.close()
-
     word = random.choice(words)
-
     return word
     
 def compare_words(word,secret):
@@ -58,7 +54,7 @@ def print_word(word,same_position,same_letter):
     for letter in same_position:
       transformed[letter] = word[letter]
     for letter in same_letter:
-      transformed[letter] = word[letter]#pero en minusculas
+      transformed[letter] = word[letter]
 
     return transformed
     
@@ -77,11 +73,21 @@ def choose_secret_advanced(filename):
     for line in f:
         line=line.split()
         words.extend(line)
-    
-    for i in range(len(words)):
-      
-
     f.close()
+
+    acentos = ["á","é","í","ó","ú"]
+
+   
+    
+    for word in words:
+      for letter in word:
+        for acento in acentos:
+          if acento in letter:
+            words.remove(word)
+    return words
+
+    
+   
  
 def check_valid_word():
     """Dada una lista de palabras, esta función pregunta al usuario que introduzca una palabra hasta que introduzca una que esté en la lista. Esta palabra es la que devolverá la función.
@@ -106,4 +112,6 @@ if __name__ == "__main__":
 '''
 #print(choose_secret("palabras_reduced.txt"))
 a = compare_words("CAMPO","CREMA")
-print(print_word("CAMPO",a[0],a[1]))
+#print(print_word("CAMPO",a[0],a[1]))
+
+print(choose_secret_advanced("palabras_extended.txt"))
